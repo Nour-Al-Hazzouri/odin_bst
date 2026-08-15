@@ -59,6 +59,31 @@ class Tree {
   includes(value) {
     return this.#binarySearch(this.Root, value);
   }
+  // traverse tree recursively to insert new node
+  #binaryInsert(node, value) {
+    // do nothing if value exists
+    if (node.Data === value) return;
+    // check if value smaller than data and add value of left is null
+    if (value < node.Data) {
+      if (node.Left) return this.#binaryInsert(node.Left, value);
+      else {
+        node.left = new Node();
+        node.Left.data = value;
+      }
+    }
+    // check if value larger than data and add value if right is null
+    else if (value > node.Data) {
+      if (node.Right) return this.#binaryInsert(node.Right, value);
+      else {
+        node.right = new Node();
+        node.Right.data = value;
+      }
+    }
+  }
+  // insert new value in BST
+  insert(value) {
+    this.#binaryInsert(this.Root, value);
+  }
 }
 
 export default Tree;
