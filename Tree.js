@@ -80,9 +80,41 @@ class Tree {
       }
     }
   }
-  // insert new value in BST
+  // insert new value in tree
   insert(value) {
     this.#binaryInsert(this.Root, value);
+  }
+  // find successor to replace node to be deleted
+  #getSuccessor(curr) {
+    curr = curr.Right;
+    while (curr !== null && curr.Left !== null) curr = curr.Left;
+    return curr;
+  }
+
+  // traverse tree recursively to find & delete item
+  #binaryDelete(node, value) {
+    // base case
+    if (!node) return null;
+    // either update link of left/right node or return the same node
+    if (value < node.Data) node.left = this.#binaryDelete(node.Left, value);
+    else if (value > node.Data)
+      node.right = this.#binaryDelete(node.Right, value);
+    else {
+      // 1 child case: return the non-null child
+      if (!node.Left) return node.Right;
+      else if (!node.Right) return node.Left;
+
+      // 2 children case
+      const succ = this.#getSuccessor(node);
+      node.data = succ.Data;
+      node.right = this.#binaryDelete(node.Right, succ.Data);
+    }
+    return node;
+  }
+
+  // delete item from tree
+  deleteItem(value) {
+    this.#binaryDelete(this.Root, value);
   }
 }
 
