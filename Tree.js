@@ -43,6 +43,22 @@ class Tree {
     console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.Data}`);
     this.prettyPrint(node.Left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
+  // search nodes recursively for value
+  #binarySearch(node, value) {
+    // base case
+    if (!node) return false;
+    // value found
+    if (node.Data === value) return true;
+    else {
+      // check left if value smaller, and right if larger
+      if (value < node.Data) return this.#binarySearch(node.Left, value);
+      else if (value > node.Data) return this.#binarySearch(node.Right, value);
+    }
+  }
+  // check if a value is inside the tree
+  includes(value) {
+    return this.#binarySearch(this.Root, value);
+  }
 }
 
 export default Tree;
