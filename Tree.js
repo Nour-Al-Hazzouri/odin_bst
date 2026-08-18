@@ -129,6 +129,42 @@ class Tree {
       queue.shift();
     }
   }
+  // traverse tree in pre-order traversal: root -> left -> right
+  #preOrderTraversal(node, callback) {
+    if (!callback) throw new Error("No callback passed");
+    if (!node) return;
+    // callback function on each value by root, left, and right
+    callback(node.Data);
+    this.#preOrderTraversal(node.Left, callback);
+    this.#preOrderTraversal(node.Right, callback);
+  }
+  preOrderForEach(callback) {
+    this.#preOrderTraversal(this.Root, callback);
+  }
+  // traverse tree in in-order traversal: left -> root -> right
+  #inOrderTraversal(node, callback) {
+    if (!callback) throw new Error("No callback passed");
+    if (!node) return;
+    // callback function on each value left, root, and right
+    this.#inOrderTraversal(node.Left, callback);
+    callback(node.Data);
+    this.#inOrderTraversal(node.Right, callback);
+  }
+  inOrderForEach(callback) {
+    this.#inOrderTraversal(this.Root, callback);
+  }
+  // traverse tree in post-order traversal: left -> right -> root
+  #postOrderTraversal(node, callback) {
+    if (!callback) throw new Error("No callback passed");
+    if (!node) return;
+    // callback function on each value left, right, and root
+    this.#postOrderTraversal(node.Left, callback);
+    this.#postOrderTraversal(node.Right, callback);
+    callback(node.Data);
+  }
+  postOrderForEach(callback) {
+    this.#postOrderTraversal(this.Root, callback);
+  }
 }
 
 export default Tree;
