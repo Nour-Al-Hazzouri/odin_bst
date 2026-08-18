@@ -116,6 +116,19 @@ class Tree {
   deleteItem(value) {
     this.#binaryDelete(this.Root, value);
   }
+  // traverse tree in breadth-first level order traversal
+  levelOrderForEach(callback) {
+    if (!callback) throw new Error("No callback passed");
+    const queue = [this.Root];
+    // dequeue parent node after enqueueing children nodes
+    while (queue.length !== 0) {
+      // callback called over each node's value
+      callback(queue[0].Data);
+      if (queue[0].Left) queue.push(queue[0].Left);
+      if (queue[0].Right) queue.push(queue[0].Right);
+      queue.shift();
+    }
+  }
 }
 
 export default Tree;
