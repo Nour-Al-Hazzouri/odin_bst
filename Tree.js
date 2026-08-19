@@ -211,6 +211,23 @@ class Tree {
     if (isNaN(result)) return;
     else return result;
   }
+  // check if difference between right and left subtrees is 1 or more
+  #checkBalance(node) {
+    if (!node) return true;
+    const leftHeight = this.#calculateHeight(node.Left);
+    const rightHeight = this.#calculateHeight(node.Right);
+    const balanceStatus = Math.abs(leftHeight - rightHeight) <= 1;
+    if (
+      balanceStatus &&
+      this.#checkBalance(node.Left) &&
+      this.#checkBalance(node.Right)
+    )
+      return true;
+    else return false;
+  }
+  isBalanced() {
+    return this.#checkBalance(this.Root);
+  }
 }
 
 export default Tree;
