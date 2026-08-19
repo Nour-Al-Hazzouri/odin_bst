@@ -165,6 +165,52 @@ class Tree {
   postOrderForEach(callback) {
     this.#postOrderTraversal(this.Root, callback);
   }
+  // calculate height of both left and right to check which is bigger
+  #calculateHeight(node) {
+    let left = 0;
+    let right = 0;
+    if (!node) return -1;
+    if (node.Left) left += this.#calculateHeight(node.Left) + 1;
+    if (node.Right) right += this.#calculateHeight(node.Right) + 1;
+    return Math.max(left, right);
+  }
+  // search height (number of edges in the longest path from that node to a leaf node)
+  #getHeight(node, value) {
+    let leftSide;
+    let rightSide;
+    if (!node) return;
+    if (value < node.Data) return this.#getHeight(node.Left, value);
+    else if (value > node.Data) return this.#getHeight(node.Right, value);
+    else if (value === node.Data) {
+      leftSide = this.#calculateHeight(node.Left);
+      rightSide = this.#calculateHeight(node.Right);
+      return Math.max(leftSide, rightSide) + 1;
+    }
+  }
+  height(value) {
+    const result = this.#getHeight(this.Root, value);
+    if (isNaN(result)) return;
+    return result;
+  }
+  // calculate depth (number of edges in the path from that node to the root node)
+  #getDepth(node, value) {
+    let counter = 0;
+    // base case
+    if (!node) return;
+    // count each time a recursive step is made
+    if (value < node.Data) {
+      return this.#getDepth(node.Left, value) + 1;
+    } else if (value > node.Data) {
+      return this.#getDepth(node.Right, value) + 1;
+      // return counter if value found
+    } else if (value === node.Data) return counter;
+  }
+  // longest road from root node to node with value
+  depth(value) {
+    const result = this.#getDepth(this.Root, value);
+    if (isNaN(result)) return;
+    else return result;
+  }
 }
 
 export default Tree;
