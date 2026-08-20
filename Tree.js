@@ -61,24 +61,17 @@ class Tree {
   }
   // traverse tree recursively to insert new node
   #binaryInsert(node, value) {
-    // do nothing if value exists
-    if (node.Data === value) return;
-    // check if value smaller than data and add value of left is null
-    if (value < node.Data) {
-      if (node.Left) return this.#binaryInsert(node.Left, value);
-      else {
-        node.left = new Node();
-        node.Left.data = value;
-      }
+    // base case for when a null is reached the new value is returned
+    if (node === null) {
+      const newNode = new Node();
+      newNode.data = value;
+      return newNode;
     }
-    // check if value larger than data and add value if right is null
-    else if (value > node.Data) {
-      if (node.Right) return this.#binaryInsert(node.Right, value);
-      else {
-        node.right = new Node();
-        node.Right.data = value;
-      }
-    }
+    // tree traversed until the value is inserted in correct position
+    if (value < node.Data) node.left = this.#binaryInsert(node.Left, value);
+    else if (value > node.Data)
+      node.right = this.#binaryInsert(node.Right, value);
+    return node;
   }
   // insert new value in tree
   insert(value) {
@@ -170,8 +163,10 @@ class Tree {
     let left = 0;
     let right = 0;
     if (!node) return -1;
+    // increment left or right based on each recursive step
     if (node.Left) left += this.#calculateHeight(node.Left) + 1;
     if (node.Right) right += this.#calculateHeight(node.Right) + 1;
+    // return highest number
     return Math.max(left, right);
   }
   // search height (number of edges in the longest path from that node to a leaf node)
@@ -181,6 +176,7 @@ class Tree {
     if (!node) return;
     if (value < node.Data) return this.#getHeight(node.Left, value);
     else if (value > node.Data) return this.#getHeight(node.Right, value);
+    // calculate node height when value is found
     else if (value === node.Data) {
       leftSide = this.#calculateHeight(node.Left);
       rightSide = this.#calculateHeight(node.Right);
