@@ -163,8 +163,10 @@ class Tree {
     let left = 0;
     let right = 0;
     if (!node) return -1;
+    // increment left or right based on each recursive step
     if (node.Left) left += this.#calculateHeight(node.Left) + 1;
     if (node.Right) right += this.#calculateHeight(node.Right) + 1;
+    // return highest number
     return Math.max(left, right);
   }
   // search height (number of edges in the longest path from that node to a leaf node)
@@ -174,6 +176,7 @@ class Tree {
     if (!node) return;
     if (value < node.Data) return this.#getHeight(node.Left, value);
     else if (value > node.Data) return this.#getHeight(node.Right, value);
+    // calculate node height when value is found
     else if (value === node.Data) {
       leftSide = this.#calculateHeight(node.Left);
       rightSide = this.#calculateHeight(node.Right);
