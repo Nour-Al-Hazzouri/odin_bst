@@ -214,6 +214,7 @@ class Tree {
   // check if difference between right and left subtrees is 1 or more
   #checkBalance(node) {
     if (!node) return true;
+    // calculate difference between right and left's heights to check for balance status
     const leftHeight = this.#calculateHeight(node.Left);
     const rightHeight = this.#calculateHeight(node.Right);
     const balanceStatus = Math.abs(leftHeight - rightHeight) <= 1;
@@ -227,6 +228,11 @@ class Tree {
   }
   isBalanced() {
     return this.#checkBalance(this.Root);
+  }
+  reBalance() {
+    const array = [];
+    this.inOrderForEach((value) => array.push(value));
+    this.root = this.#buildTree(array);
   }
 }
 
